@@ -1,0 +1,70 @@
+Your job is to review two pieces of documentation.
+
+The documentation is presented as two "chunks". Each chunk has an ID and some content.
+
+Please review the content and pull out internal contradictions and redundancies. Include a rationale for each contradiction or redundancy you find. Include a quotation from each chunk as evidence.
+
+--- JSON SCHEMA BEGINS ---
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "chunk1": {
+      "type": "string"
+    },
+    "chunk2": {
+      "type": "string"
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "rationale": {
+            "type": "string"
+          },
+          "fragments": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "quotation": {
+                  "type": "string"
+                },
+                "document": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "quotation",
+                "document"
+              ]
+            }
+          }
+        },
+        "required": [
+          "type",
+          "rationale",
+          "fragments"
+        ]
+      }
+    }
+  },
+  "required": [
+    "chunk1",
+    "chunk2",
+    "findings"
+  ]
+}
+
+--- JSON SCHEMA ENDS ---
+
+Chunk 1 ID: {chunk1_id}
+Chunk 1 content: {chunk1_text}
+
+Chunk 2 ID: {chunk2_id}
+Chunk 2 content: {chunk2_text}

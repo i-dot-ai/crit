@@ -1,0 +1,154 @@
+[
+  {
+    "type": "contradiction",
+    "rationale": "There are contradictory email addresses listed for GovWifi support across different documents. One document lists 'govwifi-support@digital.cabinet-office.gov.uk' while the accessibility statement has an incorrectly formatted link.",
+    "fragments": [
+      {
+        "quotation": "If you need any part of this service in a different format like large print, audio recording or braille, email [govwifi-support@digital.cabinet-office.gov.uk](https://docs.wifi.service.gov.uk/govwifi-support@digital.cabinet-office.gov.uk).",
+        "document": "accessibility.html"
+      },
+      {
+        "quotation": "or you can [email us](mailto:govwifi-support@digital.cabinet-office.gov.uk)",
+        "document": "certificate-rotation.html"
+      }
+    ]
+  },
+  {
+    "type": "contradiction",
+    "rationale": "The documentation presents conflicting information about the contact method for support. Some pages direct users to a support form while others direct to an email address.",
+    "fragments": [
+      {
+        "quotation": "Contact us through our [support form](https://admin.wifi.service.gov.uk/help).",
+        "document": "troubleshooting.html"
+      },
+      {
+        "quotation": "if you have any questions fill in our [support form](https://admin.wifi.service.gov.uk/help)",
+        "document": "certificate-rotation.html"
+      },
+      {
+        "quotation": "If your organisation is not listed [contact us](https://admin.wifi.service.gov.uk/help/new/technical_support).",
+        "document": "set_up.html"
+      }
+    ]
+  },
+  {
+    "type": "redundancy",
+    "rationale": "Information about how to sign up for incident alerts is repeated in multiple documents with slight variations in wording.",
+    "fragments": [
+      {
+        "quotation": "Sign up to [GovWifi Status Page](https://status.wifi.service.gov.uk/) to get our incident alerts. You can check this page for any outstanding issues that may impact your planned activities.",
+        "document": "certificate-rotation.html"
+      },
+      {
+        "quotation": "Subsribe to updates on the [GovWifi status page](https://status.wifi.service.gov.uk/) to be notified when there's an incident.",
+        "document": "set_up.html"
+      },
+      {
+        "quotation": "You need to sign up separately for incident alerts on our [status page](https://status.wifi.service.gov.uk/).",
+        "document": "manage.html"
+      }
+    ]
+  },
+  {
+    "type": "redundancy",
+    "rationale": "There's redundant information about checking the status page for service issues across multiple documents.",
+    "fragments": [
+      {
+        "quotation": "[check the GovWifi status page](https://status.wifi.service.gov.uk) to see if there are any problems with the service",
+        "document": "troubleshooting.html"
+      },
+      {
+        "quotation": "You can check this page for any outstanding issues that may impact your planned activities.",
+        "document": "certificate-rotation.html"
+      }
+    ]
+  },
+  {
+    "type": "redundancy",
+    "rationale": "Information about network security requirements is duplicated across different sections with varying levels of detail.",
+    "fragments": [
+      {
+        "quotation": "* set your network to use client isolation to prevent compromised devices attacking other devices\n* use the [NCSC's Protective DNS](https://www.ncsc.gov.uk/information/pdns) to protect against malicious domains\n* block sites that breach your organisation's acceptable use policy\n* put monitoring in place to detect rogue access points that may broadcast a fake GovWifi network",
+        "document": "requirements.html"
+      },
+      {
+        "quotation": "You're responsible for setting your own acceptable use policy and managing filtering and firewall controls.",
+        "document": "manage.html"
+      }
+    ]
+  },
+  {
+    "type": "contradiction",
+    "rationale": "There is contradictory information about certificate rotation dates. One document says it's scheduled for May 29, 2025, but another document refers to downloading certificates for 2024.",
+    "fragments": [
+      {
+        "quotation": "We'll give you at least one month's notice about certificate rotations. The next one is scheduled for Thursday 29th May 2025.",
+        "document": "certificate-rotation.html"
+      },
+      {
+        "quotation": "Download the new certificates for 2024:\n\n* [server certificate](https://docs.wifi.service.gov.uk/assets/2024/wifi.service.gov.uk.crt)\n* [intermediate certificate](https://docs.wifi.service.gov.uk/assets/2024/GeoTrustTLSRSACAG1.crt)\n* [root certificate](https://docs.wifi.service.gov.uk/assets/2024/DigiCertGlobalRootG2.crt)",
+        "document": "certificate-rotation.html"
+      }
+    ]
+  },
+  {
+    "type": "redundancy",
+    "rationale": "Instructions for configuring the SSID name are repeated with similar wording across documents.",
+    "fragments": [
+      {
+        "quotation": "2. Create a service set identifier (SSID) with:\n   * name: GovWifi\n   * type: WPA2-Enterprise (AES encryption)",
+        "document": "set_up.html"
+      },
+      {
+        "quotation": "> Make sure you spell GovWifi exactly as shown. Do not use a variation like 'Govwifi' or 'GovWiFi'. If different GovWifi networks format the SSID differently, users will have to authenticate to each one rather than connecting automatically. Their devices will not recognise them as the same network.",
+        "document": "set_up.html"
+      },
+      {
+        "quotation": "* do not use 'GovWifi' as the SSID, or you might have potential conflicts when GovWifi is working again",
+        "document": "set_up.html"
+      }
+    ]
+  },
+  {
+    "type": "contradiction",
+    "rationale": "There are conflicting statements about RADIUS accounting port support. One section states port 1813 should not be pointed at GovWifi RADIUS IPs, while network requirements only mention port 1812 for authentication.",
+    "fragments": [
+      {
+        "quotation": "1. Create a firewall rule to allow traffic on User Datagram Protocol (UDP) ports 1812 to reach the RADIUS IP addresses assigned to you. Do not point UDP port 1813 at GovWifi RADIUS IPs - GovWifi does not support RADIUS accounting and port 1813 is closed.",
+        "document": "set_up.html"
+      },
+      {
+        "quotation": "* firewall must allow RADIUS protocol to connect to the GovWifi authentication servers - port 1812/User Datagram Protocol (UDP) for authentication requests",
+        "document": "requirements.html"
+      }
+    ]
+  },
+  {
+    "type": "redundancy",
+    "rationale": "The documentation repeats information about the memorandum of understanding (MOU) across multiple documents.",
+    "fragments": [
+      {
+        "quotation": "* your organisation must have signed the [memorandum of understanding (MOU)](https://admin.wifi.service.gov.uk/mou) (sign in required) which sets out the terms that we can share personal data under",
+        "document": "manage.html"
+      },
+      {
+        "quotation": "You must [sign the memorandum of understanding](https://www.wifi.service.gov.uk/memorandum-of-understanding/) (MOU) before your organisation can begin installing GovWifi.\n\nThe MOU sets out the agreement between the Government Digital Service (GDS) and your public sector organisation in relation to GovWifi use.",
+        "document": "set_up.html"
+      }
+    ]
+  },
+  {
+    "type": "redundancy",
+    "rationale": "There is duplicate information about users with managed devices experiencing connection problems across different documents.",
+    "fragments": [
+      {
+        "quotation": "Users on managed devices may not have permission to accept the new certificate. The organisation that gave them the device needs to accept it for them.",
+        "document": "certificate-rotation.html"
+      },
+      {
+        "quotation": "If the user can connect with their personal device and not with their work device, the cause is usually a managed device issue. You should check with the team that issued the device.",
+        "document": "troubleshooting.html"
+      }
+    ]
+  }
+]
