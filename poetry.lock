@@ -935,6 +935,18 @@ files = [
 ]
 
 [[package]]
+name = "mistune"
+version = "3.1.2"
+description = "A sane and fast Markdown parser with useful plugins and renderers"
+optional = false
+python-versions = ">=3.8"
+groups = ["main"]
+files = [
+    {file = "mistune-3.1.2-py3-none-any.whl", hash = "sha256:4b47731332315cdca99e0ded46fc0004001c1299ff773dfb48fbe1fd226de319"},
+    {file = "mistune-3.1.2.tar.gz", hash = "sha256:733bf018ba007e8b5f2d3a9eb624034f6ee26c4ea769a98ec533ee111d504dff"},
+]
+
+[[package]]
 name = "narwhals"
 version = "1.29.1"
 description = "Extremely lightweight compatibility layer between dataframe libraries"
@@ -2448,4 +2460,4 @@ cffi = ["cffi (>=1.11)"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.12,<3.14"
-content-hash = "4dfb934ea046d34f7a61ebb41dacc24be6436af8f895a349fe879cc05f88e744"
+content-hash = "d54aa0980fdc525e32fa739e3c2e1f35b8de44300632fd7dbd17abc51e5a7f35"

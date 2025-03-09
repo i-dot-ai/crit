@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>crit - review your docs</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>crit</h1>
+        <div class="report-meta">
+            your report • generated {{ generation_date }}
+        </div>
+    </header>
+
+    <main>
+        {% for finding in findings %}
+        <section class="finding" id="finding-{{ loop.index }}">
+            <h2>Finding {{ loop.index }}</h2>
+            <div class="finding-content">
+                <div class="rationale">
+                    <p>{{ finding.rationale }}</p>
+                </div>
+                <div class="references">
+                    {% for ref in finding.references %}
+                    <div class="reference">
+                        <div class="document-path">{{ ref.document }}</div>
+                        <div class="quotation">{{ ref.quotation_html | safe }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+        {% endfor %}
+    </main>
+    
+    <footer>
+        <p>crit - an experiment - 2025</p>
+    </footer>
+</body>
+</html>

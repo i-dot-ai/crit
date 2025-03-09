@@ -1,70 +1,75 @@
-Your job is to review two pieces of documentation.
+Your job is to review documentation from a documentation website.
 
 The documentation is presented as two "chunks". Each chunk has an ID and some content.
 
-Please review the content and pull out internal contradictions and redundancies. Include a rationale for each contradiction or redundancy you find. Include a quotation from each chunk as evidence.
+Please review the content and pull out internal contradictions. Include a rationale for each contradiction you find. Include a quotation from each chunk as evidence. When quoting, do NOT quote less than a full sentence.
+
+Focus only on direct contradictions. Ignore omissions, where one chunk gives information the other does not. This is to be expected when the chunks come from different parts of the documentation.
+
+Notes:
+- The rationale should concisely state the nature of the contradiction. Refer to "quotations" or "sections", not "chunks" - users won't understand what a chunk is.
+- If you are asked to compare two identical chunks, say where the chunk contradicts itself, if it does.
+- The definition of "contradiction" is "the statement of a position opposite to one already made". To qualify as a contradiction it must be IMPOSSIBLE for the two statements to be true. DO NOT INCLUDE cases where the two statements are not mutually exclusive.
+- Consider ONLY direct contradictions, not omissions. Ignore ALL omissions.
+- For the purpose of this exercise, today's date in 9 Mar 2025.
+- If information appears to be factually incorrect that is not your problem. You should only care about contradictions.
+- Return ALL genuine contradictions. If there are no contradictions, you must return an empty "findings" array.
+- Attend to the document url and title given just before the content. These will provide useful context for the chunk.
 
 --- JSON SCHEMA BEGINS ---
 
-{
+{{
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
-  "properties": {
-    "chunk1": {
-      "type": "string"
-    },
-    "chunk2": {
-      "type": "string"
-    },
-    "findings": {
+  "properties": {{
+    "findings": {{
       "type": "array",
-      "items": {
+      "items": {{
         "type": "object",
-        "properties": {
-          "type": {
+        "properties": {{
+          "rationale": {{
             "type": "string"
-          },
-          "rationale": {
-            "type": "string"
-          },
-          "fragments": {
+          }},
+          "fragments": {{
             "type": "array",
-            "items": {
+            "items": {{
               "type": "object",
-              "properties": {
-                "quotation": {
+              "properties": {{
+                "quotation": {{
                   "type": "string"
-                },
-                "document": {
+                }},
+                "chunk_id": {{
                   "type": "string"
-                }
-              },
+                }}
+              }},
               "required": [
                 "quotation",
                 "document"
               ]
-            }
-          }
-        },
+            }}
+          }}
+        }},
         "required": [
           "type",
           "rationale",
           "fragments"
         ]
-      }
-    }
-  },
+      }}
+    }}
+  }},
   "required": [
-    "chunk1",
-    "chunk2",
     "findings"
   ]
-}
+}}
 
 --- JSON SCHEMA ENDS ---
 
 Chunk 1 ID: {chunk1_id}
+Chunk 1 document url: {chunk1_doc}
+Chunk 1 document title: {chunk1_title}
 Chunk 1 content: {chunk1_text}
 
 Chunk 2 ID: {chunk2_id}
+Chunk 2 document url: {chunk2_doc}
+Chunk 2 document title: {chunk2_title}
 Chunk 2 content: {chunk2_text}
