@@ -7,3 +7,4 @@ __pycache__
 3-outputs/
 !3-outputs/.keep
 public/*.html
+*.db

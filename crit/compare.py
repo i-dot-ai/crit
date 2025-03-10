@@ -12,6 +12,7 @@ import hashlib
 import time
 import random
 from crit.logging import logger
+from crit.vector import generate_comparison_pairs_by_vector
 from dotenv import load_dotenv
 from jinja2 import Environment, FileSystemLoader
 import mistune
@@ -87,7 +88,7 @@ def process_llm_comparisons(
     results = []
     comparison_count = len(comparison_pairs)
 
-    experimenting = True
+    experimenting = False
     if experimenting:
         max_pairs = 2
         random.shuffle(comparison_pairs)
@@ -139,11 +140,13 @@ def llm_compare_chunks(chunk1, chunk2, token_counts) -> Dict[str, Any]:
         chunk1_title=chunk1.title,
         chunk2_title=chunk2.title,
         chunk1_text=chunk1.text,
-        chunk2_text=chunk2.text
+        chunk2_text=chunk2.text,
     )
 
     response = llm.invoke(prompt)
     output = json.loads(response.content)
+    if output:
+        logger.info(f"Detected {len(output)} contradiction(s)")
     token_counts["input"] += response.usage_metadata["input_tokens"]
     token_counts["output"] += response.usage_metadata["output_tokens"]
 
@@ -176,7 +179,9 @@ def generate_crit_report(findings, output_path):
             ref["quotation_html"] = mistune.html(ref["quotation"])
 
     html = template.render(
-        findings=findings, generation_date=datetime.datetime.now().strftime("%B %d, %Y")
+        findings=findings, generation_date=datetime.datetime.now().strftime(
+            "%B %d, %Y"
+        )
     )
 
     # Write to file
@@ -189,7 +194,7 @@ def generate_crit_report(findings, output_path):
 
 
 def main(scrape: dict):
-    approach = "brute"
+    approach = "vector"
 
     chunk_map = content_json_to_chunks(scrape, chunk_size=768, overlap=20)
 
@@ -200,9 +205,6 @@ def main(scrape: dict):
         comparison_pairs = generate_comparison_pairs_by_vector(chunk_map)
 
     comparison_results = process_llm_comparisons(chunk_map, comparison_pairs)
-
-    with open("data.json", "w", encoding="utf-8") as f:
-        json.dump(comparison_results, f, ensure_ascii=False, indent=4)
 
     reduced_findings = reduce_findings(comparison_results)
 
@@ -226,7 +228,7 @@ def main(scrape: dict):
             chunk_id = fragment["chunk_id"]
             chunk_details = chunk_map[chunk_id]
 
-            document = chunk_details["document"]
+            document = chunk_details.document
             quotation = fragment["quotation"]
 
             references.append({"document": document, "quotation": quotation})

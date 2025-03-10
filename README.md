@@ -54,13 +54,3 @@ Then visit `http://localhost:8000` and your output reports will be listed.
 ## Screenshot
 
 <img width="1204" alt="Screenshot 2025-03-10 at 13 48 36" src="https://github.com/user-attachments/assets/f3059798-125b-4591-b618-b9cdb15fc9f6" />
-
-## Next
-
-Auditing 100 chunks pairwise results in (100**2 + 100) / 2 = 5050 comparisons. This is time-consuming and expensive.
-
-There are other ways to do this. For example:
-
-- using semantic search to identify the top k chunks likeliest to overlap with a given chunk, and only comparing those ones
-- stuffing the context window with more chunks (current approach goes chunk by chunk with a heavy fixed cost of repeating the whole prompt for each comparison
-- running inference in parallel so it takes less time
