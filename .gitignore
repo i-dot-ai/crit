@@ -1,6 +1,9 @@
 __pycache__
 .env
 1-scrapes/
+!1-scrapes/.keep
 2-content/
+!2-content/.keep
 3-outputs/
+!3-outputs/.keep
 public/*.html
