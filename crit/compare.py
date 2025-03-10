@@ -20,14 +20,22 @@ from tenacity import (
     stop_after_attempt,
     wait_random_exponential,
 )
+from pydantic import BaseModel
 
 
 load_dotenv()
 
 
+class Chunk(BaseModel):
+    id: str
+    text: str
+    title: str
+    document: str
+
+
 def content_json_to_chunks(
     scrape: dict, chunk_size: int, overlap: int
-) -> Dict[str, str]:
+) -> Dict[str, Chunk]:
     doc_count = len(scrape.keys())
     logger.info(
         "Turning scrape into chunks. "
@@ -54,12 +62,12 @@ def content_json_to_chunks(
                 4
             )  # consistent hashes
 
-            output[id] = {
-                "id": id,
-                "text": chunk_text,
-                "title": content["title"],
-                "document": document,
-            }
+            output[id] = Chunk(
+                id=id,
+                text=chunk_text,
+                title=content["title"],
+                document=document,
+            )
 
             i += chunk_size - overlap
 
@@ -74,14 +82,14 @@ def generate_comparison_pairs(
 
 
 def process_llm_comparisons(
-    chunks: Dict[str, dict], comparison_pairs: list[Tuple[str, str], None, None]
+    chunks: Dict[str, Chunk], comparison_pairs: list[Tuple[str, str], None, None]
 ) -> List[Dict[str, Any]]:
     results = []
     comparison_count = len(comparison_pairs)
 
     experimenting = True
     if experimenting:
-        max_pairs = 400
+        max_pairs = 2
         random.shuffle(comparison_pairs)
         comparison_pairs = comparison_pairs[:max_pairs]
         logger.info(f"Comparing up to {max_pairs} pairs (experiment=True)")
@@ -98,7 +106,11 @@ def process_llm_comparisons(
 
         llm_result = llm_compare_chunks(chunk1, chunk2, token_counts)
 
-        output = {"result": llm_result, "chunk1": chunk1, "chunk2": chunk2}
+        output = {
+            "result": llm_result,
+            "chunk1": chunk1.model_dump_json(),
+            "chunk2": chunk2.model_dump_json(),
+        }
 
         results.append(output)
         logger.info(token_counts)  # keep a running total
@@ -120,14 +132,14 @@ def llm_compare_chunks(chunk1, chunk2, token_counts) -> Dict[str, Any]:
         prompt = file.read()
     template = PromptTemplate.from_template(template=prompt)
     prompt = template.format(
-        chunk1_id=chunk1["id"],
-        chunk2_id=chunk2["id"],
-        chunk1_doc=chunk1["document"],
-        chunk2_doc=chunk2["document"],
-        chunk1_title=chunk1["title"],
-        chunk2_title=chunk2["title"],
-        chunk1_text=chunk1["text"],
-        chunk2_text=chunk2["text"],
+        chunk1_id=chunk1.id,
+        chunk2_id=chunk2.id,
+        chunk1_doc=chunk1.document,
+        chunk2_doc=chunk2.document,
+        chunk1_title=chunk1.title,
+        chunk2_title=chunk2.title,
+        chunk1_text=chunk1.text,
+        chunk2_text=chunk2.text
     )
 
     response = llm.invoke(prompt)
@@ -137,7 +149,7 @@ def llm_compare_chunks(chunk1, chunk2, token_counts) -> Dict[str, Any]:
 
     input_cost = 0.000000015 * token_counts["input"]
     output_cost = 0.0000006 * token_counts["output"]
-    token_counts["cost"] += (input_cost + output_cost)
+    token_counts["cost"] += input_cost + output_cost
 
     return output
 
@@ -177,10 +189,16 @@ def generate_crit_report(findings, output_path):
 
 
 def main(scrape: dict):
+    approach = "brute"
+
     chunk_map = content_json_to_chunks(scrape, chunk_size=768, overlap=20)
 
-    chunk_ids = list(chunk_map.keys())
-    comparison_pairs = generate_comparison_pairs(chunk_ids)
+    if approach == "brute":
+        chunk_ids = list(chunk_map.keys())
+        comparison_pairs = generate_comparison_pairs(chunk_ids)
+    elif approach == "vector":
+        comparison_pairs = generate_comparison_pairs_by_vector(chunk_map)
+
     comparison_results = process_llm_comparisons(chunk_map, comparison_pairs)
 
     with open("data.json", "w", encoding="utf-8") as f:
