@@ -1,7 +1,0 @@
-given a text
-use tiktoken to break it into chunks: 512 tokens per chunk, with overlap 20
-assign each chunk an id and create a JSON which maps ids to chunks
-prepare chunks for comparison: set up a generator for pairs of chunks where each chunk is compared with the others exactly once (i.e. compare AB but not BA) and also with itself.
-send each pair to an LLM (leave a placeholder here, I'll provide this part)
-the LLM will return a JSON structure. write each JSON structure into a list.
-Once the list is complete, reduce it in the following way: the JSON structure will include keys for "chunk1" and "chunk2" as well as an object under "findings". transform the list into a structure mapping the id of chunk1 to a list of "findings" about that chunk.
